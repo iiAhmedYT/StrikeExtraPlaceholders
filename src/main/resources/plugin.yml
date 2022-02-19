@@ -1,0 +1,10 @@
+name: StrikeExtraPlaceholders
+version: '${project.version}'
+main: dev.iiahmed.sep.StrikeExtraPlaceholders
+depend: [ StrikePractice, PlaceholderAPI ]
+authors: [ iiAhmedYT ]
+description: An additional Placeholders system for StrikePractice
+website: https://iiahmed.dev
+commands:
+  SEP:
+    description: the StrikeExtraPlaceholders command
