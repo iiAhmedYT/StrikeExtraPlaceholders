@@ -1,6 +1,9 @@
 package dev.iiahmed.sep.util;
 
 import dev.iiahmed.sep.StrikeExtraPlaceholders;
+import ga.strikepractice.StrikePractice;
+import ga.strikepractice.api.StrikePracticeAPI;
+import ga.strikepractice.party.Party;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -54,6 +57,30 @@ public class Expantion extends PlaceholderExpansion {
             } else return ChatColor
                     .translateAlternateColorCodes('&', "&cKIT DOESN'T EXIST");
         }
+
+        /* partyMember */
+        if(placeholder.startsWith("partymember_")){
+            StrikePracticeAPI api = StrikePractice.getAPI();
+            Party party = api.getParty(player);
+            if (party == null) {
+                return ChatColor
+                        .translateAlternateColorCodes('&', "&cINVALID PARTY");
+            }
+            String stringnumber = placeholder.replace("partymember_", "");
+            int number;
+
+            try {
+                number = Integer.parseInt(stringnumber);
+            } catch (NumberFormatException ignored){
+                return "Invalid Party Number " + stringnumber;
+            }
+
+            if(party.getMembersNames().size() > number){
+                return (String) party.getMembersNames().toArray()[number];
+            }
+            return "";
+        }
+
         return ChatColor.translateAlternateColorCodes('&',"&cINVAILID PLACEHOLDER");
     }
 

@@ -93,7 +93,7 @@
             <artifactId>StrikePractice</artifactId>
             <version>3.4.2</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/libs/StrikePractice-3.4.2.jar</systemPath>
+            <systemPath>${project.basedir}/libs/StrikePractice-3.4.4.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
