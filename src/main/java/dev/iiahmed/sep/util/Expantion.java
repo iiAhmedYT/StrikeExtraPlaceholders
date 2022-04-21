@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Expantion extends PlaceholderExpansion {
 
-    private final StrikeExtraPlaceholders instance = StrikeExtraPlaceholders.getInstance();
+    private StrikeExtraPlaceholders instance = StrikeExtraPlaceholders.getInstance();
 
     @Override
     public @NotNull String getIdentifier() {
@@ -67,7 +67,7 @@ public class Expantion extends PlaceholderExpansion {
             try {
                 number = Integer.parseInt(stringnumber);
             } catch (NumberFormatException ignored){
-                StrikeExtraPlaceholders.getInstance().debug("%SEP_" + placeholder + "% has in invalid int");
+                instance.debug("%SEP_" + placeholder + "% has in invalid int");
                 return "Invalid Party Number " + stringnumber;
             }
 
