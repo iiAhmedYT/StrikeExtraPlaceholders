@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Expantion extends PlaceholderExpansion {
 
-    private StrikeExtraPlaceholders instance = StrikeExtraPlaceholders.getInstance();
+    private final StrikeExtraPlaceholders instance = StrikeExtraPlaceholders.getInstance();
 
     @Override
     public @NotNull String getIdentifier() {
