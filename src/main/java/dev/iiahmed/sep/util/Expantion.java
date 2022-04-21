@@ -5,7 +5,6 @@ import ga.strikepractice.StrikePractice;
 import ga.strikepractice.api.StrikePracticeAPI;
 import ga.strikepractice.party.Party;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,8 +43,7 @@ public class Expantion extends PlaceholderExpansion {
             if(instance.getPlayerAmountQueue().containsKey(kit)){
                 count = instance.getPlayerAmountQueue().get(kit);
                 return String.valueOf(count);
-            } else return ChatColor
-                    .translateAlternateColorCodes('&', "&cKIT DOESN'T EXIST");
+            } else return Message.INVALID_KIT.toString();
         }
 
         /* inFightCount */
@@ -54,8 +52,7 @@ public class Expantion extends PlaceholderExpansion {
             if(instance.getPlayerAmountFight().containsKey(kit)){
                 count = instance.getPlayerAmountFight().get(kit);
                 return String.valueOf(count);
-            } else return ChatColor
-                    .translateAlternateColorCodes('&', "&cKIT DOESN'T EXIST");
+            } else return Message.INVALID_KIT.toString();
         }
 
         /* partyMember */
@@ -63,25 +60,24 @@ public class Expantion extends PlaceholderExpansion {
             StrikePracticeAPI api = StrikePractice.getAPI();
             Party party = api.getParty(player);
             if (party == null) {
-                return ChatColor
-                        .translateAlternateColorCodes('&', "&cINVALID PARTY");
+                return Message.INVALID_PARTY.toString();
             }
             String stringnumber = placeholder.replace("partymember_", "");
             int number;
-
             try {
                 number = Integer.parseInt(stringnumber);
             } catch (NumberFormatException ignored){
+                StrikeExtraPlaceholders.getInstance().debug("%SEP_" + placeholder + "% has in invalid int");
                 return "Invalid Party Number " + stringnumber;
             }
 
             if(party.getMembersNames().size() > number){
-                return (String) party.getMembersNames().toArray()[number];
+                return (String) party.getMembersNames().toArray()[number-1];
             }
-            return "";
+            return Message.PARTYMEMBER_INVALID_PLAYER.toString();
         }
 
-        return ChatColor.translateAlternateColorCodes('&',"&cINVAILID PLACEHOLDER");
+        return Message.INVALID_PLACEHOLDER.toString();
     }
 
 }

@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.logging.Level;
 
 @Getter
 public final class StrikeExtraPlaceholders extends JavaPlugin {
@@ -18,20 +19,28 @@ public final class StrikeExtraPlaceholders extends JavaPlugin {
     private HashMap<String, Integer> playerAmountQueue;
     private HashMap<String, Integer> playerAmountFight;
     int taskID;
+    private boolean debug;
 
     @Override
     public void onEnable() {
         instance = this;
-        playerAmountQueue = new HashMap<>();
-        playerAmountFight = new HashMap<>();
+        this.playerAmountQueue = new HashMap<>();
+        this.playerAmountFight = new HashMap<>();
+        saveDefaultConfig();
         runTask();
         new Expantion().register();
         Bukkit.getPluginCommand("SEP").setExecutor(new SEP());
+        this.debug = getConfig().getBoolean("settings.debug");
     }
 
     public void reloadSystem(){
         cancelTask();
         runTask();
+    }
+
+    public void debug(String message){
+        if(!debug) return;
+        getLogger().log(Level.INFO, message);
     }
 
     @SuppressWarnings("all")
