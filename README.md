@@ -22,4 +22,4 @@ Returns the amount of players fighing per kit
 > %SEP_partymember_[integer]%
  
 Returns the name of a member in the party depending
-on the number you gave wether he exist or not
+on the number you gave whether he exist or not
