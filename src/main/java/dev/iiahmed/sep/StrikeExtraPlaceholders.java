@@ -25,8 +25,6 @@ public final class StrikeExtraPlaceholders extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        this.queueAmounts = new HashMap<>();
-        this.fightAmounts = new HashMap<>();
         saveDefaultConfig();
         runTask();
         new Expantion().register();
@@ -52,8 +50,12 @@ public final class StrikeExtraPlaceholders extends JavaPlugin {
     @SuppressWarnings("ConstantConditions")
     public void update() {
         StrikePracticeAPI api = StrikePractice.getAPI();
-        queueAmounts.clear();
-        fightAmounts.clear();
+        HashMap<String, Integer> queueAmounts = new HashMap<>();
+        HashMap<String, Integer> fightAmounts = new HashMap<>();
+        api.getKits().forEach(kit -> {
+            queueAmounts.put(kit.getName(), 0);
+            fightAmounts.put(kit.getName(), 0);
+        });
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (api.isInFight(player)) {
                 String kit = api.getFight(player).getKit().getName();
@@ -65,6 +67,8 @@ public final class StrikeExtraPlaceholders extends JavaPlugin {
                 queueAmounts.put(kit, i + 1);
             }
         }
+        this.queueAmounts = queueAmounts;
+        this.fightAmounts = fightAmounts;
     }
 
     private void cancelTask() {
