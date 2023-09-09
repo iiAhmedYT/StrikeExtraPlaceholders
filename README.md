@@ -15,9 +15,22 @@ wasn't correct in it's cache
 
 Returns the amount of players queued per kit
 
+> %SEP_dynamicqueue_[kitname]%
+
+Returns 1 if empty, the amount of queued players + 1 if not
+
+
+> %SEP_dynamicqueue2_[kitname]%
+
+Returns 1 if empty, returns 2 if there are queued players
+
 > %SEP_infightcount_[kitname]%
 
 Returns the amount of players fighing per kit
+
+> %SEP_dynamicfight_[kitname]%
+
+Returns 1 if empty, the amount of fighting players if not
 
 > %SEP_partymember_[integer]%
 

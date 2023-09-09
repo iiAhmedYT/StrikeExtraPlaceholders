@@ -50,6 +50,15 @@ public class Expantion extends PlaceholderExpansion {
             kit = placeholder.replace("dynamicqueue_", "");
 
             int i = instance.getQueueAmounts().get(kit);
+            return i == 0? String.valueOf(1) : String.valueOf(i + 1);
+        }
+
+
+        /* dynamic queue count for menus (per kit) */
+        if (placeholder.startsWith("dynamicqueue2_")) {
+            kit = placeholder.replace("dynamicqueue2_", "");
+
+            int i = instance.getQueueAmounts().get(kit);
             return i == 0? String.valueOf(1) : String.valueOf(2);
         }
 
@@ -67,7 +76,7 @@ public class Expantion extends PlaceholderExpansion {
             kit = placeholder.replace("dynamicfight_", "");
 
             int i = instance.getFightAmounts().get(kit);
-            return i == 0? String.valueOf(1) : String.valueOf(2);
+            return i == 0? String.valueOf(1) : String.valueOf(i);
         }
 
         /* partyMember */
