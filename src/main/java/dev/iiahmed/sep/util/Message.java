@@ -10,13 +10,11 @@ public enum Message {
     INVALID_PARTY("&cINVALID PARTY", "message.invalid-prty"),
 
     // specified placeholders
-    PARTYMEMBER_INVALID_PLAYER("", "message.party-member.invalid-player")
-
-    ;
+    PARTYMEMBER_INVALID_PLAYER("", "message.party-member.invalid-player");
 
     private final String defaultMessage, path;
 
-    Message(String defaultMessage, String path){
+    Message(String defaultMessage, String path) {
         this.defaultMessage = defaultMessage;
         this.path = path;
     }
@@ -24,14 +22,14 @@ public enum Message {
     @Override
     public String toString() {
         String message = StrikeExtraPlaceholders.getInstance().getConfig().getString(path);
-        if(message == null){
+        if (message == null) {
             StrikeExtraPlaceholders.getInstance().debug("Message in " + path + " is not set.");
             return translate(defaultMessage);
         }
         return translate(message);
     }
 
-    private String translate(String message){
+    private String translate(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

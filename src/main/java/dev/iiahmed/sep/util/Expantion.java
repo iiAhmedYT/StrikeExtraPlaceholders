@@ -35,28 +35,25 @@ public class Expantion extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String placeholder) {
         String kit;
-        int count;
 
         /* inQueueCount */
-        if(placeholder.startsWith("inqueuecount_")){
+        if (placeholder.startsWith("inqueuecount_")) {
             kit = placeholder.replace("inqueuecount_", "");
-            if(instance.getPlayerAmountQueue().containsKey(kit)){
-                count = instance.getPlayerAmountQueue().get(kit);
-                return String.valueOf(count);
+            if (instance.getQueueAmounts().containsKey(kit)) {
+                return String.valueOf(instance.getQueueAmounts().get(kit));
             } else return Message.INVALID_KIT.toString();
         }
 
         /* inFightCount */
-        if(placeholder.startsWith("infightcount_")){
+        if (placeholder.startsWith("infightcount_")) {
             kit = placeholder.replace("infightcount_", "");
-            if(instance.getPlayerAmountFight().containsKey(kit)){
-                count = instance.getPlayerAmountFight().get(kit);
-                return String.valueOf(count);
+            if (instance.getFightAmounts().containsKey(kit)) {
+                return String.valueOf(instance.getFightAmounts().get(kit));
             } else return Message.INVALID_KIT.toString();
         }
 
         /* partyMember */
-        if(placeholder.startsWith("partymember_")){
+        if (placeholder.startsWith("partymember_")) {
             StrikePracticeAPI api = StrikePractice.getAPI();
             Party party = api.getParty(player);
             if (party == null) {
@@ -66,13 +63,13 @@ public class Expantion extends PlaceholderExpansion {
             int number;
             try {
                 number = Integer.parseInt(stringnumber);
-            } catch (NumberFormatException ignored){
-                instance.debug("%SEP_" + placeholder + "% has in invalid int");
+            } catch (NumberFormatException ignored) {
+                instance.debug("%SEP_" + placeholder + "% has an invalid int");
                 return "Invalid Party Number " + stringnumber;
             }
 
-            if(party.getMembersNames().size() > number){
-                return (String) party.getMembersNames().toArray()[number-1];
+            if (party.getMembersNames().size() >= number) {
+                return (String) party.getMembersNames().toArray()[number - 1];
             }
             return Message.PARTYMEMBER_INVALID_PLAYER.toString();
         }

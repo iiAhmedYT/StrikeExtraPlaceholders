@@ -15,17 +15,18 @@ import java.util.logging.Level;
 @Getter
 public final class StrikeExtraPlaceholders extends JavaPlugin {
 
-    @Getter private static StrikeExtraPlaceholders instance;
-    private HashMap<String, Integer> playerAmountQueue;
-    private HashMap<String, Integer> playerAmountFight;
+    @Getter
+    private static StrikeExtraPlaceholders instance;
     int taskID;
+    private HashMap<String, Integer> queueAmounts;
+    private HashMap<String, Integer> fightAmounts;
     private boolean debug;
 
     @Override
     public void onEnable() {
         instance = this;
-        this.playerAmountQueue = new HashMap<>();
-        this.playerAmountFight = new HashMap<>();
+        this.queueAmounts = new HashMap<>();
+        this.fightAmounts = new HashMap<>();
         saveDefaultConfig();
         runTask();
         new Expantion().register();
@@ -33,44 +34,40 @@ public final class StrikeExtraPlaceholders extends JavaPlugin {
         this.debug = getConfig().getBoolean("settings.debug");
     }
 
-    public void reloadSystem(){
+    public void reloadSystem() {
         cancelTask();
         runTask();
     }
 
-    public void debug(String message){
-        if(!debug) return;
+    public void debug(String message) {
+        if (!debug) return;
         getLogger().log(Level.INFO, message);
     }
 
-    @SuppressWarnings("all")
-    private void runTask(){
-        StrikePracticeAPI api = StrikePractice.getAPI();
-        playerAmountQueue.clear();
-        playerAmountFight.clear();
-        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            api.getKits().forEach(kit -> {
-                String kitName = kit.getName();
-                int queueAmount = 0;
-                int fightAmount = 0;
-                for(Player player : Bukkit.getOnlinePlayers()){
-                    if(api.isInFight(player) && api.getFight(player) != null){
-                        if(api.getFight(player).getKit().getName().equalsIgnoreCase(kitName))
-                            fightAmount++;
-                    }
-                    if(api.isInQueue(player) && api.getQueuedKit(player) != null &&
-                            api.getQueuedKit(player).getName().equalsIgnoreCase(kitName)){
-                        queueAmount++;
-                    }
-                }
-                playerAmountQueue.put(kitName, queueAmount);
-                playerAmountFight.put(kitName, fightAmount);
-            });
-        }, 0, 2*20);
-        if(taskID == -1) runTask();
+    private void runTask() {
+        taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, this::update, 0, 2 * 20);
+        if (taskID == -1) runTask();
     }
 
-    private void cancelTask(){
+    @SuppressWarnings("ConstantConditions")
+    public void update() {
+        StrikePracticeAPI api = StrikePractice.getAPI();
+        queueAmounts.clear();
+        fightAmounts.clear();
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (api.isInFight(player)) {
+                String kit = api.getFight(player).getKit().getName();
+                int i = fightAmounts.get(kit);
+                fightAmounts.put(kit, i + 1);
+            } else if (api.isInQueue(player)) {
+                String kit = api.getQueuedKit(player).getName();
+                int i = queueAmounts.get(kit);
+                queueAmounts.put(kit, i + 1);
+            }
+        }
+    }
+
+    private void cancelTask() {
         Bukkit.getScheduler().cancelTask(taskID);
     }
 

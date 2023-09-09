@@ -20,6 +20,6 @@ Returns the amount of players queued per kit
 Returns the amount of players fighing per kit
 
 > %SEP_partymember_[integer]%
- 
+
 Returns the name of a member in the party depending
 on the number you gave whether he exist or not
