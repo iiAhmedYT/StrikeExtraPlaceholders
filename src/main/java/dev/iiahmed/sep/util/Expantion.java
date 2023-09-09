@@ -36,20 +36,38 @@ public class Expantion extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player player, @NotNull String placeholder) {
         String kit;
 
-        /* inQueueCount */
+        /* queued player count (per kit) */
         if (placeholder.startsWith("inqueuecount_")) {
             kit = placeholder.replace("inqueuecount_", "");
-            if (instance.getQueueAmounts().containsKey(kit)) {
-                return String.valueOf(instance.getQueueAmounts().get(kit));
-            } else return Message.INVALID_KIT.toString();
+
+            return instance.getQueueAmounts().containsKey(kit)?
+                    String.valueOf(instance.getQueueAmounts().get(kit)) :
+                    Message.INVALID_KIT.toString();
         }
 
-        /* inFightCount */
+        /* dynamic queue count for menus (per kit) */
+        if (placeholder.startsWith("dynamicqueue_")) {
+            kit = placeholder.replace("dynamicqueue_", "");
+
+            int i = instance.getQueueAmounts().get(kit);
+            return i == 0? String.valueOf(1) : String.valueOf(2);
+        }
+
+        /* fighting players (per kit) */
         if (placeholder.startsWith("infightcount_")) {
             kit = placeholder.replace("infightcount_", "");
-            if (instance.getFightAmounts().containsKey(kit)) {
-                return String.valueOf(instance.getFightAmounts().get(kit));
-            } else return Message.INVALID_KIT.toString();
+
+            return instance.getFightAmounts().containsKey(kit) ?
+                    String.valueOf(instance.getFightAmounts().get(kit)) :
+                    Message.INVALID_KIT.toString();
+        }
+
+        /* dynamic queue count (per kit) */
+        if (placeholder.startsWith("dynamicfight_")) {
+            kit = placeholder.replace("dynamicfight_", "");
+
+            int i = instance.getFightAmounts().get(kit);
+            return i == 0? String.valueOf(1) : String.valueOf(2);
         }
 
         /* partyMember */
