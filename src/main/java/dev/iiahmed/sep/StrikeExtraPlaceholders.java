@@ -59,10 +59,18 @@ public final class StrikeExtraPlaceholders extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (api.isInFight(player)) {
                 String kit = api.getFight(player).getKit().getName();
+                if (!fightAmounts.containsKey(kit)) {
+                    // kit is probably a custom kit
+                    continue;
+                }
                 int i = fightAmounts.get(kit);
                 fightAmounts.put(kit, i + 1);
             } else if (api.isInQueue(player)) {
                 String kit = api.getQueuedKit(player).getName();
+                if (!queueAmounts.containsKey(kit)) {
+                    // kit is probably a custom kit
+                    continue;
+                }
                 int i = queueAmounts.get(kit);
                 queueAmounts.put(kit, i + 1);
             }
